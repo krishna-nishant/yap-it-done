@@ -46,10 +46,12 @@ function bumpUsage() {
 }
 export const freeLeft = () => Math.max(0, FREE_PROMPTS - getUsage())
 
+// reason: 'limit' (this browser used its free prompts) | 'busy' (owner's quota is rate-limited)
 export class NeedKeyError extends Error {
-  constructor() {
-    super(`Used all ${FREE_PROMPTS} free prompts`)
+  constructor(reason = 'limit') {
+    super(reason === 'busy' ? 'Shared Gemini quota is busy' : `Used all ${FREE_PROMPTS} free prompts`)
     this.name = 'NeedKeyError'
+    this.reason = reason
   }
 }
 
@@ -104,11 +106,16 @@ export async function parseWithGemini(text, state) {
       ms: Math.round(performance.now() - t0),
     }))
 
-  const rounds = [
-    [[MODEL, !MODEL.includes('latest')], [FALLBACK, true]],
-    [['gemini-3.1-flash-lite', false], [FALLBACK, false]],
-  ]
+  // Own/dev key: race two models for speed. Shared key: one request at a time to save the free quota.
+  const rounds =
+    mode === 'shared'
+      ? [[[MODEL, false]], [[FALLBACK, true]], [['gemini-3.1-flash-lite', false]]]
+      : [
+          [[MODEL, !MODEL.includes('latest')], [FALLBACK, true]],
+          [['gemini-3.1-flash-lite', false], [FALLBACK, false]],
+        ]
   let lastErr
+  let rateLimited = false
   for (const round of rounds) {
     try {
       const result = await Promise.any(round.map(([model, thinking]) => call(model, thinking)))
@@ -120,9 +127,11 @@ export async function parseWithGemini(text, state) {
       return { ...result, mode }
     } catch (err) {
       lastErr = err.errors?.[0] || err
+      if ((err.errors || [err]).some((e) => e.status === 429)) rateLimited = true
       console.warn('[yap] gemini round failed:', (err.errors || [err]).map((e) => e.message).join(' | '))
     }
   }
+  if (rateLimited && mode === 'shared') throw new NeedKeyError('busy')
   throw lastErr
 }
 

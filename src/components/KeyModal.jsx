@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, KeyRound, ExternalLink, Eye, EyeOff, Loader2, WifiOff, Trash2 } from 'lucide-react'
 import { FREE_PROMPTS, getUserKey, setUserKey, validateKey, freeLeft } from '../lib/gemini'
 
-// reason: 'limit' (free prompts used up) | 'settings' (opened from the footer)
+// reason: 'limit' (free prompts used up) | 'busy' (owner's free quota rate-limited) | 'settings' (opened from the footer)
 export default function KeyModal({ open, reason, onClose, onSaved, onOffline }) {
   const [key, setKey] = useState('')
   const [show, setShow] = useState(false)
@@ -61,10 +61,10 @@ export default function KeyModal({ open, reason, onClose, onSaved, onOffline }) 
             </button>
 
             <div className="mb-1 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-orange-600 dark:text-orange-300">
-              <KeyRound className="size-3.5" /> {reason === 'limit' ? 'Free yaps used up' : 'Gemini key'}
+              <KeyRound className="size-3.5" /> {reason === 'limit' ? 'Free yaps used up' : reason === 'busy' ? 'Lots of yappers right now' : 'Gemini key'}
             </div>
             <h2 className="font-serif text-4xl leading-tight text-zinc-900 dark:text-zinc-50">
-              {reason === 'limit' ? `You used all ${FREE_PROMPTS} free yaps 🎉` : existing ? 'Using your own key' : 'Bring your own key'}
+              {reason === 'limit' ? `You used all ${FREE_PROMPTS} free yaps 🎉` : reason === 'busy' ? 'Krishna’s free key is busy 🔥' : existing ? 'Using your own key' : 'Bring your own key'}
             </h2>
             <p className="mt-3 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-300">
               Yap It Done is a fun project by Krishna. To keep yapping, add your own <b>free</b> Gemini key. It stays in this browser and goes straight to Google, never to anyone else.
@@ -109,12 +109,12 @@ export default function KeyModal({ open, reason, onClose, onSaved, onOffline }) 
 
             <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
               <div className="flex gap-2">
-                {reason === 'limit' && (
+                {(reason === 'limit' || reason === 'busy') && (
                   <button type="button" onClick={onOffline} className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm text-zinc-600 transition hover:bg-black/5 dark:text-zinc-300 dark:hover:bg-white/10">
                     <WifiOff className="size-4" /> Try offline mode
                   </button>
                 )}
-                {existing && reason !== 'limit' && (
+                {existing && reason === 'settings' && (
                   <button type="button" onClick={remove} className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm text-rose-600 transition hover:bg-rose-500/10 dark:text-rose-400">
                     <Trash2 className="size-4" /> Remove my key
                   </button>
@@ -129,7 +129,7 @@ export default function KeyModal({ open, reason, onClose, onSaved, onOffline }) 
                 {checking && <Loader2 className="size-4 animate-spin" />} {checking ? 'Checking…' : 'Save & keep yapping'}
               </button>
             </div>
-            {!existing && reason !== 'limit' && <p className="mt-4 text-center font-mono text-[11px] text-zinc-500">{freeLeft()} free yaps left on Krishna's key</p>}
+            {!existing && reason === 'settings' && <p className="mt-4 text-center font-mono text-[11px] text-zinc-500">{freeLeft()} free yaps left on Krishna's key</p>}
           </motion.div>
         </motion.div>
       )}

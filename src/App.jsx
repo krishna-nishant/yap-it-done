@@ -162,7 +162,7 @@ export default function App() {
         if (err.name === 'NeedKeyError') {
           // Free prompts on the owner's key are used up: ask for the visitor's own key
           pendingText.current = text
-          setKeyModal('limit')
+          setKeyModal(err.reason || 'limit')
           setProcessing(false)
           return false
         }
