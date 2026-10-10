@@ -29,4 +29,4 @@ npm run dev
 
 ## Deploy (Vercel)
 
-Set `GEMINI_API_KEY` (no `VITE_` prefix) in the Vercel project settings. The browser calls `/api/parse`, so the key stays on the server. Each browser gets 122 free prompts (change with `VITE_FREE_PROMPTS`), then visitors are asked for their own free Gemini key, which stays in their browser.
+Set `GEMINI_API_KEY` (no `VITE_` prefix) in the Vercel project settings. The browser calls `/api/parse`, so the key stays on the server. Each browser gets 12 free prompts (change with `VITE_FREE_PROMPTS`), then visitors are asked for their own free Gemini key, which stays in their browser.
