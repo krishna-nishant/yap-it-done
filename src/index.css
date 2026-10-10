@@ -86,7 +86,7 @@ body::before {
   }
 }
 .glow-card {
-  position: relative;
+  /* no position here: unlayered CSS would override Tailwind's fixed/relative utilities */
   animation: breathe 4s ease-in-out infinite;
 }
 .glow-card::before {

@@ -107,8 +107,8 @@ export default function Header({ state, onDemo, onBrief, reminders, onToggleRemi
     <header className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
       <div>
         <h1 className="font-serif text-[44px] leading-[1.02] tracking-tight text-zinc-900 sm:text-6xl dark:text-zinc-50">
-          <SplitText text={dateLine} className="block" />
-          <SplitText text={tagline} delay={0.35} className="block pr-2 italic text-orange-500 drop-shadow-[0_0_24px_rgba(251,146,60,0.35)] dark:text-orange-400" />
+          <SplitText key={dateLine} text={dateLine} className="block" />
+          <SplitText key={tagline} text={tagline} delay={0.35} className="block pr-2 italic text-orange-500 drop-shadow-[0_0_24px_rgba(251,146,60,0.35)] dark:text-orange-400" />
         </h1>
         <div className="mt-4 flex flex-wrap gap-2">
           <Chip dot="bg-indigo-400">
