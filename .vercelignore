@@ -1,0 +1,5 @@
+# Never upload local secrets: Vite would bake VITE_* vars into the public bundle
+.env
+.env.*
+node_modules
+dist
