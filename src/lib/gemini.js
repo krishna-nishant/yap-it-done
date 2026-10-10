@@ -7,7 +7,7 @@ import { buildRequestBody, clockNow, slimState } from './brain'
 const ENV_KEY = import.meta.env.VITE_GEMINI_API_KEY
 const MODEL = import.meta.env.VITE_GEMINI_MODEL || 'gemini-flash-lite-latest'
 const FALLBACK = import.meta.env.VITE_GEMINI_FALLBACK_MODEL || 'gemini-3.5-flash-lite'
-export const FREE_PROMPTS = Number(import.meta.env.VITE_FREE_PROMPTS) || 12
+export const FREE_PROMPTS = Number(import.meta.env.VITE_FREE_PROMPTS) || 2
 
 const KEY_STORAGE = 'yap-it-done:gemini-key'
 const USAGE_STORAGE = 'yap-it-done:usage'

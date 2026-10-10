@@ -64,7 +64,7 @@ export default function KeyModal({ open, reason, onClose, onSaved, onOffline }) 
               <KeyRound className="size-3.5" /> {reason === 'limit' ? 'Free yaps used up' : reason === 'busy' ? 'Lots of yappers right now' : 'Gemini key'}
             </div>
             <h2 className="font-serif text-4xl leading-tight text-zinc-900 dark:text-zinc-50">
-              {reason === 'limit' ? `You used all ${FREE_PROMPTS} free yaps 🎉` : reason === 'busy' ? 'Krishna’s free key is busy 🔥' : existing ? 'Using your own key' : 'Bring your own key'}
+              {reason === 'limit' ? `You used your ${FREE_PROMPTS} free yap${FREE_PROMPTS === 1 ? '' : 's'} 🎉` : reason === 'busy' ? 'Krishna’s free key is busy 🔥' : existing ? 'Using your own key' : 'Bring your own key'}
             </h2>
             <p className="mt-3 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-300">
               Yap It Done is a fun project by Krishna. To keep yapping, add your own <b>free</b> Gemini key. It stays in this browser and goes straight to Google, never to anyone else.
@@ -129,7 +129,7 @@ export default function KeyModal({ open, reason, onClose, onSaved, onOffline }) 
                 {checking && <Loader2 className="size-4 animate-spin" />} {checking ? 'Checking…' : 'Save & keep yapping'}
               </button>
             </div>
-            {!existing && reason === 'settings' && <p className="mt-4 text-center font-mono text-[11px] text-zinc-500">{freeLeft()} free yaps left on Krishna's key</p>}
+            {!existing && reason === 'settings' && <p className="mt-4 text-center font-mono text-[11px] text-zinc-500">{freeLeft()} free yap{freeLeft() === 1 ? '' : 's'} left on Krishna's key</p>}
           </motion.div>
         </motion.div>
       )}

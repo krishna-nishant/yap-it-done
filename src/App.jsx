@@ -327,7 +327,7 @@ export default function App() {
           <span className="font-mono">⌘K focus · ⌘Z undo</span>
           <span className="opacity-40">·</span>
           <button type="button" onClick={() => setKeyModal('settings')} className="font-mono transition hover:text-zinc-800 dark:hover:text-zinc-200">
-            {getUserKey() ? '🔑 using your Gemini key' : offlineMode ? 'offline mode · add key' : `${freeLeft()} free yaps left`}
+            {getUserKey() ? '🔑 using your Gemini key' : offlineMode ? 'offline mode · add key' : `${freeLeft()} free yap${freeLeft() === 1 ? '' : 's'} left`}
           </button>
           <span className="opacity-40">·</span>
           <button type="button" onClick={onDemo} className="font-mono transition hover:text-zinc-800 dark:hover:text-zinc-200">
